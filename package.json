@@ -1,0 +1,20 @@
+{
+  "name": "gym-stats-fetch",
+  "version": "1.0.0",
+  "description": "An app to auto fetch the amount of people in the Taipei Civil Gyms",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "author": "Tony Yu",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "crawler": "^1.3.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "mongodb": "^4.3.0",
+    "node-fetch": "^3.1.1"
+  }
+}
