@@ -41,7 +41,7 @@ import fetch from 'node-fetch';
         let resXZ = await fetch(xzapi,{method:'get'})
         let dataXZ = await resXZ.text();
         let XZ = await dataXZ.split(',')
-        numList.locationPeople.push({short:"XZSC",peoNum:XZ[0],maxPeo:150})
+        numList.locationPeople.push({short:"XZSC",peoNum:parseInt(XZ[0]),maxPeo:150})
 
 
         await mongo.connect(err => {
@@ -51,6 +51,8 @@ import fetch from 'node-fetch';
             const database = mongo.db("sports_center");
             const Collection = database.collection("data");
             Collection.insertOne(numList).then(()=>{
+                console.log(`inserted data:`);
+                console.log(numList.locationPeople);
                 process.exit(0)
             })
         })
