@@ -45,7 +45,8 @@ import fetch from 'node-fetch';
         let resPQ = await fetch(pqapi,{method:'post'})
         let dataPQ = await resPQ.json();
         numList.locationPeople.push({short:"PQFN",peoNum:parseInt(dataPQ.data[0].rooms[0].count),maxPeo:parseInt(dataPQ.data[0].rooms[0].limit)})
-
+        let XZ = await dataXZ.split(',')
+         numList.locationPeople.push({short:"XZSC",peoNum:parseInt(XZ[0]),maxPeo:150})
 
         await mongo.connect(err => {
             if (err) console.error(err);
