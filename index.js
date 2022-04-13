@@ -8,6 +8,7 @@ const tyapi = "https://tycsc.cyc.org.tw/api"
 const scapi = "http://www.scsports.com.tw/proxy1.php"
 const lzapi = "https://lzcsc.cyc.org.tw/api"
 const xzapi = "https://www.xzsports.com.tw/parser.php"
+const pqapi = "https://pqfitness.fitbutler.tw/?d=app&m=getMemberCounter&c=company"
 import fetch from 'node-fetch';
 
     const date = new Date()
@@ -40,8 +41,10 @@ import fetch from 'node-fetch';
 
         let resXZ = await fetch(xzapi,{method:'get'})
         let dataXZ = await resXZ.text();
-        let XZ = await dataXZ.split(',')
-        numList.locationPeople.push({short:"XZSC",peoNum:parseInt(XZ[0]),maxPeo:150})
+
+        let resPQ = await fetch(pqapi,{method:'post'})
+        let dataPQ = await resPQ.json();
+        numList.locationPeople.push({short:"PQFN",peoNum:parseInt(dataPQ.data[0].rooms[0].count),maxPeo:parseInt(dataPQ.data[0].rooms[0].limit)})
 
 
         await mongo.connect(err => {
