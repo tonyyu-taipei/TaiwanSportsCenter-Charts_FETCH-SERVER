@@ -9,6 +9,10 @@ const scapi = "http://www.scsports.com.tw/proxy1.php"
 const lzapi = "https://lzcsc.cyc.org.tw/api"
 const xzapi = "https://www.xzsports.com.tw/parser.php"
 const pqapi = "https://pqfitness.fitbutler.tw/?d=app&m=getMemberCounter&c=company"
+const rfapi = "https://refine.fitbutler.tw/?d=app&m=getMemberCounter&c=company"
+const rfapi = "https://www.zbsports.com.tw/proxy1.php"
+
+
 import fetch from 'node-fetch';
 
     const date = new Date()
@@ -47,6 +51,14 @@ import fetch from 'node-fetch';
         numList.locationPeople.push({short:"PQFN",peoNum:parseInt(dataPQ.data[0].rooms[0].count),maxPeo:parseInt(dataPQ.data[0].rooms[0].limit)})
         let XZ = await dataXZ.split(',')
          numList.locationPeople.push({short:"XZSC",peoNum:parseInt(XZ[0]),maxPeo:150})
+
+         let resRF = await fetch(rfapi,{method:'post'})
+         let dataRF = await resRF.json();
+         numList.locationPeople.push({short:"RFFN",peoNum:parseInt(dataRF.data[0].rooms[0].count),maxPeo:parseInt(dataRF.data[0].rooms[0].limit)})
+
+         let resZB = await fetch(zbapi,{method:'get'})
+         let dataZB = await resZB.json();
+         numList.locationPeople.push({short:"ZBSC",peoNum:parseInt(dataZB.gym[0]),maxPeo:parseInt(dataZB.gym[1])})
 
         await mongo.connect(err => {
             if (err) console.error(err);
