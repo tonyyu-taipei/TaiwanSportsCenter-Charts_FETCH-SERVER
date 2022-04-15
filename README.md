@@ -1,13 +1,13 @@
-# 運動中心健身房圖表查詢系統（資料抓取後端）
+# 健身房圖表查詢系統（資料抓取後端）
 
 [系統網址](https://tonyyu.taipei/gym-stats)
-[Changelog與Known Bugs](https://hackmd.io/@x9VPntxwQemm0h5ceTvAJw/rJrxViL0F)
+[Changelog、Known Bugs、計畫新功能與資料來源](https://hackmd.io/@x9VPntxwQemm0h5ceTvAJw/rJrxViL0F)
 
 網站架構含此[客戶端](https://github.com/tonyyu-taipei/TaiwanSportsCenter-Charts_CLIENT)、[Sails.js後端](https://github.com/tonyyu-taipei/TaiwanSportsCenter-Charts_SAILS-SERVER)與資料庫抓取程式（此Repo）（共三個程式）
 資料庫使用MongoDB
 
 ## 用處
-將各運動中心人流抓進資料庫
+將各健身房人流抓進資料庫
 
 ## 環境設置
 
@@ -31,4 +31,4 @@ node index.js
 
 ## 想新增更多運動中心或私人健身房資訊？
 
-歡迎將fork專案，並建立PR
+歡迎fork專案，並PR
