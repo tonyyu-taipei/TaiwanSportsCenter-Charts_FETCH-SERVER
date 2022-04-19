@@ -14,6 +14,7 @@
 請在專案檔根目錄新增.env檔，並在裡面輸入：
 ```
 MONGODB=你的MongoDB連結
+AGGtoken=你的阿基里斯Gym帳戶的Token
 ```
 
 
