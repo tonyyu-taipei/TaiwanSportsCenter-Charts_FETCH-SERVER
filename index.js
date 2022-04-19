@@ -11,7 +11,7 @@ const xzapi = "https://www.xzsports.com.tw/parser.php"
 const pqapi = "https://pqfitness.fitbutler.tw/?d=app&m=getMemberCounter&c=company"
 const rfapi = "https://refine.fitbutler.tw/?d=app&m=getMemberCounter&c=company"
 const zbapi = "https://www.zbsports.com.tw/proxy1.php"
-const agapi = `https://17fit.com/appapi/v1.0.0/branch/448/people_flow?agent_token=${process.env.AGGtoken}`
+const afapi = `https://17fit.com/appapi/v1.0.0/branch/448/people_flow?agent_token=${process.env.AGGtoken}`
 
 import fetch from 'node-fetch';
 
@@ -61,9 +61,9 @@ import fetch from 'node-fetch';
          numList.locationPeople.push({short:"ZBSC",peoNum:parseInt(dataZB.gym[0]),maxPeo:parseInt(dataZB.gym[1])})
 
          try{
-            let resAG = await fetch(agapi,{method:'get'})
-            let dataAG = await resAG.json();
-            numList.locationPeople.push({short:"AGGYM",peoNum:parseInt(dataAG.data.count),maxPeo:100})
+            let resAF = await fetch(afapi,{method:'get'})
+            let dataAF = await resAF.json();
+            numList.locationPeople.push({short:"AFGM",peoNum:parseInt(dataAF.data.count),maxPeo:100})
         }
         catch(e){
             console.error(e)
