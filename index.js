@@ -24,20 +24,25 @@ import fetch from 'node-fetch';
     const date = new Date()
 
     if ((date.getHours() < 22) && (date.getHours() >= 6)) {
+    try{
         let res = await fetch(api_url, {
             method: 'post',
             agent: new https.Agent({
                 rejectUnauthorized: false,
               })
         })
+    }catch(e){
+        console.log(e);
+    }
 
         let list = [];
         let numList = { time: date, locationPeople: [] };
         let data = await res.json()
-        await data.locationPeopleNums.forEach(val => {
-            list.push({ short: val.LID, name: val.lidName })
-            numList.locationPeople.push({ short: val.LID, peoNum: parseInt(val.gymPeopleNum), maxPeo:parseInt(val.gymMaxPeopleNum) })
-        })
+        
+            await data.locationPeopleNums.forEach(val => {
+                list.push({ short: val.LID, name: val.lidName })
+                numList.locationPeople.push({ short: val.LID, peoNum: parseInt(val.gymPeopleNum), maxPeo:parseInt(val.gymMaxPeopleNum) })
+            })
         let resLK = await fetch(lkapi,{method:'get'})
         let dataLK = await resLK.json();
         numList.locationPeople.push({short:"LKSC",peoNum:parseInt(dataLK.gym[0]),maxPeo:parseInt(dataLK.gym[1])})
