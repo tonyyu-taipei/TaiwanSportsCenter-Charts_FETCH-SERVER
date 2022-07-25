@@ -14,11 +14,6 @@ const zbapi = "https://www.zbsports.com.tw/proxy1.php"
 const afapi = `https://17fit.com/appapi/v1.0.0/branch/448/people_flow?agent_token=${process.env.AGGtoken}`
 
 import https from "https"
-const options = {
-  agent: new https.Agent({
-    rejectUnauthorized: false
-  })
-};
 import fetch from 'node-fetch';
 
     const date = new Date()
