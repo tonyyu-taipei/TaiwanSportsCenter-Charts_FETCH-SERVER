@@ -19,8 +19,9 @@ import fetch from 'node-fetch';
     const date = new Date()
 
     if ((date.getHours() < 22) && (date.getHours() >= 6)) {
+        let res = {};
     try{
-        let res = await fetch(api_url, {
+        res = await fetch(api_url, {
             method: 'post',
             agent: new https.Agent({
                 rejectUnauthorized: false,
@@ -31,7 +32,7 @@ import fetch from 'node-fetch';
     }
 
         let list = [];
-        let numList = { time: date, locationPeople: [] };
+        let numList = { time: new Date(), locationPeople: [] };
         let data = await res.json()
         
             await data.locationPeopleNums.forEach(val => {
