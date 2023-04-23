@@ -2,7 +2,7 @@ import { MongoClient } from 'mongodb'
 import './loadEnv.js'
 const uri = process.env.MONGODB;
 const mongo = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-const api_url = "https://booking.tpsc.sporetrofit.com/Home/loadLocationPeopleNum"
+const api_url = "https://booking-tpsc.sporetrofit.com/Home/loadLocationPeopleNum"
 const lkapi = "https://lkcsc.cyc.org.tw/api"
 const tyapi = "https://tycsc.cyc.org.tw/api"
 const scapi = "http://www.scsports.com.tw/proxy1.php"
@@ -34,7 +34,7 @@ import fetch from 'node-fetch';
         let list = [];
         let numList = { time: new Date(), locationPeople: [] };
         let data = await res.json()
-        
+        try{
             await data.locationPeopleNums.forEach(val => {
                 list.push({ short: val.LID, name: val.lidName })
                 numList.locationPeople.push({ short: val.LID, peoNum: parseInt(val.gymPeopleNum), maxPeo:parseInt(val.gymMaxPeopleNum) })
@@ -48,7 +48,6 @@ import fetch from 'node-fetch';
         let resSC = await fetch(scapi,{method:'get'})
         let dataSC = await resSC.json();
         numList.locationPeople.push({short:"SCSC",peoNum:parseInt(dataSC.gym[0]),maxPeo:parseInt(dataSC.gym[1])})
-        try{
             let resLZ = await fetch(lzapi,{method:'get'})
             let dataLZ = await resLZ.json();
             numList.locationPeople.push({short:"LZSC",peoNum:parseInt(dataLZ.gym[0]),maxPeo:parseInt(dataLZ.gym[1])})
