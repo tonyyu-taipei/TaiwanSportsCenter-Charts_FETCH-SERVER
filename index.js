@@ -12,6 +12,8 @@ const pqapi = "https://pqfitness.fitbutler.tw/?d=app&m=getMemberCounter&c=compan
 const rfapi = "https://refine.fitbutler.tw/?d=app&m=getMemberCounter&c=company"
 const zbapi = "https://www.zbsports.com.tw/proxy1.php"
 const afapi = `https://17fit.com/appapi/v1.0.0/branch/448/people_flow?agent_token=${process.env.AGGtoken}`
+const ntapi =  `https://www.ntsports.com.tw/parser.php` //南屯運動中心
+const cmapi = "https://lkcsc.cyc.org.tw/api" // 朝馬運動中心
 
 import https from "https"
 import fetch from 'node-fetch';
@@ -48,9 +50,12 @@ import fetch from 'node-fetch';
         let resSC = await fetch(scapi,{method:'get'})
         let dataSC = await resSC.json();
         numList.locationPeople.push({short:"SCSC",peoNum:parseInt(dataSC.gym[0]),maxPeo:parseInt(dataSC.gym[1])})
-            let resLZ = await fetch(lzapi,{method:'get'})
-            let dataLZ = await resLZ.json();
-            numList.locationPeople.push({short:"LZSC",peoNum:parseInt(dataLZ.gym[0]),maxPeo:parseInt(dataLZ.gym[1])})
+        let resLZ = await fetch(lzapi,{method:'get'})
+        let dataLZ = await resLZ.json();
+        numList.locationPeople.push({short:"LZSC",peoNum:parseInt(dataLZ.gym[0]),maxPeo:parseInt(dataLZ.gym[1])})
+
+        
+        
         }catch(e){
             console.log(e)
         }
@@ -66,6 +71,26 @@ import fetch from 'node-fetch';
         catch(e){
             console.log(e)
         }
+        //朝馬運動中心
+        try{
+            let resCM = await fetch(cmapi,{method:'get'})
+            let dataCM = await resCM.json();
+            numList.locationPeople.push({short:"CMSC",peoNum:parseInt(dataCM.gym[0]),maxPeo:parseInt(dataCM.gym[1])})
+        }catch(err){
+            console.error(err)
+        }
+        //南屯運動中心
+        try{
+            let resNT = await fetch(ntapi,{method:"get"})
+            let dataNT = await resNT.text();
+
+            let num = dataNT.split(',');
+            numList.locationPeople.push({short:"NTSC", peoNum:parseInt(num[1]), maxPeo:120})
+        }catch(e){
+            console.error(e);
+        }
+
+        //Refine Fitness
          try{
          let resRF = await fetch(rfapi,{method:'post'})
          let dataRF = await resRF.json();
@@ -95,9 +120,11 @@ import fetch from 'node-fetch';
                 process.exit(0)
             })
         })
-
-   }else{
+    }else{
         console.log("營業時間外，現在時間"+date.getHours())
         process.exit(0)
     }
+
+
+
 
