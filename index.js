@@ -22,6 +22,7 @@ import fetch from 'node-fetch';
 
     if ((date.getHours() < 22) && (date.getHours() >= 6)) {
         let res = {};
+        let data = []
     try{
         res = await fetch(api_url, {
             method: 'post',
@@ -29,13 +30,13 @@ import fetch from 'node-fetch';
                 rejectUnauthorized: false,
               })
         })
+        data = await res.json()
     }catch(e){
         console.log(e);
     }
 
         let list = [];
         let numList = { time: new Date(), locationPeople: [] };
-        let data = await res.json()
         try{
             await data.locationPeopleNums.forEach(val => {
                 list.push({ short: val.LID, name: val.lidName })
