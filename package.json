@@ -16,5 +16,8 @@
     "express": "^4.17.2",
     "mongodb": "^4.3.0",
     "node-fetch": "^3.1.1"
+  },
+  "devDependencies": {
+    "undici": "^6.19.5"
   }
 }

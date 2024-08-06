@@ -3,21 +3,29 @@ import './loadEnv.js'
 const uri = process.env.MONGODB;
 const mongo = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const api_url = "https://booking-tpsc.sporetrofit.com/Home/loadLocationPeopleNum"
-const lkapi = "https://lkcsc.cyc.org.tw/api"
-const tyapi = "https://tycsc.cyc.org.tw/api"
+const lkapi = "http://lkcsc.cyc.org.tw/api"
+const tyapi = "http://tycsc.cyc.org.tw/api"
 const scapi = "http://www.scsports.com.tw/proxy1.php"
-const lzapi = "https://lzcsc.cyc.org.tw/api"
+const lzapi = "http://lzcsc.cyc.org.tw/api"
 const xzapi = "https://www.xzsports.com.tw/parser.php"
 const pqapi = "https://pqfitness.fitbutler.tw/?d=app&m=getMemberCounter&c=company"
 const rfapi = "https://refine.fitbutler.tw/?d=app&m=getMemberCounter&c=company"
 const zbapi = "https://www.zbsports.com.tw/proxy1.php"
 const afapi = `https://17fit.com/appapi/v1.0.0/branch/448/people_flow?agent_token=${process.env.AGGtoken}`
 const ntapi =  `https://www.ntsports.com.tw/parser.php` //南屯運動中心
-const cmapi = "https://lkcsc.cyc.org.tw/api" // 朝馬運動中心
-
+const cmapi = "http://lkcsc.cyc.org.tw/api" // 朝馬運動中心
+const wsapi = "http://wssc.cyc.org.tw/api" //文山運動中心
 import https from "https"
 import fetch from 'node-fetch';
+import { Agent, setGlobalDispatcher } from 'undici'
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+const agent = new Agent({
+  connect: {
+    rejectUnauthorized: false
+  }
+})
 
+setGlobalDispatcher(agent)
     const date = new Date()
 
     if ((date.getHours() < 22) && (date.getHours() >= 6)) {
@@ -54,12 +62,20 @@ import fetch from 'node-fetch';
         let resLZ = await fetch(lzapi,{method:'get'})
         let dataLZ = await resLZ.json();
         numList.locationPeople.push({short:"LZSC",peoNum:parseInt(dataLZ.gym[0]),maxPeo:parseInt(dataLZ.gym[1])})
-
-        
         
         }catch(e){
             console.log(e)
         }
+	try{
+
+        	let resWS = await fetch(wsapi,{method:'get'})
+        	let dataWS = await resWS.json();
+        	numList.locationPeople.push({short:"WSSC",peoNum:parseInt(dataWS.gym[0]),maxPeo:parseInt(dataWS.gym[1])})
+        
+	}catch(e){
+		console.log(e)
+	}
+
         try{
             let resXZ = await fetch(xzapi,{method:'get'})
             let dataXZ = await resXZ.text();
