@@ -82,12 +82,12 @@ setGlobalDispatcher(agent)
         }catch(e){
             console.log(e)
         }
-        //NKSC API Fetch
+        //NKGC API Fetch
         try{
         	let resNK = await fetch(nkapi,{method:'get'})
         	let dataNK = await resNK.json();
-            if(numList.locationPeople.some(e=>e.short==="NKSC")==false){
-        	    numList.locationPeople.push({short:"NKSC",peoNum:parseInt(dataNK.gym[0]),maxPeo:parseInt(dataNK.gym[1])})
+            if(numList.locationPeople.some(e=>e.short==="NGSC")==false){
+        	    numList.locationPeople.push({short:"NGSC",peoNum:parseInt(dataNK.gym[0]),maxPeo:parseInt(dataNK.gym[1])})
             }
     }catch(e){
         console.log(e)
