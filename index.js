@@ -15,6 +15,7 @@ const afapi = `https://17fit.com/appapi/v1.0.0/branch/448/people_flow?agent_toke
 const ntapi =  `https://www.ntsports.com.tw/parser.php` //南屯運動中心
 const cmapi = "http://lkcsc.cyc.org.tw/api" // 朝馬運動中心
 const wsapi = "http://wssc.cyc.org.tw/api" //文山運動中心
+const nkapi = "https://ngsc.cyc.org.tw/api" //南港運動中心
 import https from "https"
 import fetch from 'node-fetch';
 import { Agent, setGlobalDispatcher } from 'undici'
@@ -50,32 +51,60 @@ setGlobalDispatcher(agent)
                 list.push({ short: val.LID, name: val.lidName })
                 numList.locationPeople.push({ short: val.LID, peoNum: parseInt(val.gymPeopleNum), maxPeo:parseInt(val.gymMaxPeopleNum) })
             })
+        }catch(e){
+            console.log(e);
+        }
+        try{
         let resLK = await fetch(lkapi,{method:'get'})
         let dataLK = await resLK.json();
         numList.locationPeople.push({short:"LKSC",peoNum:parseInt(dataLK.gym[0]),maxPeo:parseInt(dataLK.gym[1])})
-        let resTY = await fetch(tyapi,{method:'get'})
-        let dataTY = await resTY.json();
-        numList.locationPeople.push({short:"TYSC",peoNum:parseInt(dataTY.gym[0]),maxPeo:parseInt(dataTY.gym[1])})
-        let resSC = await fetch(scapi,{method:'get'})
-        let dataSC = await resSC.json();
-        numList.locationPeople.push({short:"SCSC",peoNum:parseInt(dataSC.gym[0]),maxPeo:parseInt(dataSC.gym[1])})
-        let resLZ = await fetch(lzapi,{method:'get'})
-        let dataLZ = await resLZ.json();
-        numList.locationPeople.push({short:"LZSC",peoNum:parseInt(dataLZ.gym[0]),maxPeo:parseInt(dataLZ.gym[1])})
-        
         }catch(e){
             console.log(e)
         }
+        try{
+        let resTY = await fetch(tyapi,{method:'get'})
+        let dataTY = await resTY.json();
+        numList.locationPeople.push({short:"TYSC",peoNum:parseInt(dataTY.gym[0]),maxPeo:parseInt(dataTY.gym[1])})
+        }catch(e){
+            console.log(e)
+        }
+        try{
+        let resSC = await fetch(scapi,{method:'get'})
+        let dataSC = await resSC.json();
+        numList.locationPeople.push({short:"SCSC",peoNum:parseInt(dataSC.gym[0]),maxPeo:parseInt(dataSC.gym[1])})
+        }catch(e){
+            console.log(e)
+        }
+        try{
+        let resLZ = await fetch(lzapi,{method:'get'})
+        let dataLZ = await resLZ.json();
+        numList.locationPeople.push({short:"LZSC",peoNum:parseInt(dataLZ.gym[0]),maxPeo:parseInt(dataLZ.gym[1])})
+        }catch(e){
+            console.log(e)
+        }
+        //NKSC API Fetch
+        try{
+        	let resNK = await fetch(nkapi,{method:'get'})
+        	let dataNK = await resNK.json();
+            if(numList.locationPeople.some(e=>e.short==="NKSC")==false){
+        	    numList.locationPeople.push({short:"NKSC",peoNum:parseInt(dataNK.gym[0]),maxPeo:parseInt(dataNK.gym[1])})
+            }
+    }catch(e){
+        console.log(e)
+    }
+	    // WSSC API Fetch
 	try{
 
         	let resWS = await fetch(wsapi,{method:'get'})
         	let dataWS = await resWS.json();
-        	numList.locationPeople.push({short:"WSSC",peoNum:parseInt(dataWS.gym[0]),maxPeo:parseInt(dataWS.gym[1])})
+            if(!numList.locationPeople.some(e => e.short==="WSSC")){
+                console.log("WSSC在智慧雲中不存在，將直接新增原官網資料")
+        	    numList.locationPeople.push({short:"WSSC",peoNum:parseInt(dataWS.gym[0]),maxPeo:parseInt(dataWS.gym[1])})
+            }
         
 	}catch(e){
 		console.log(e)
 	}
-
         try{
             let resXZ = await fetch(xzapi,{method:'get'})
             let dataXZ = await resXZ.text();
