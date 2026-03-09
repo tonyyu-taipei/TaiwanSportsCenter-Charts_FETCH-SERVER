@@ -29,7 +29,7 @@ const agent = new Agent({
 setGlobalDispatcher(agent)
     const date = new Date()
 
-    if ((date.getHours() < 22) && (date.getHours() >= 6)) {
+    if ((date.getHours() <= 24) && (date.getHours() >= 6)) {
         let res = {};
         let data = []
     try{
@@ -141,6 +141,7 @@ setGlobalDispatcher(agent)
          let resRF = await fetch(rfapi,{method:'post'})
          let dataRF = await resRF.json();
          numList.locationPeople.push({short:"RFFN",peoNum:parseInt(dataRF.data[0].rooms[0].count),maxPeo:parseInt(dataRF.data[0].rooms[0].limit)})
+         numList.locationPeople.push({short:"SJRF",peoNum:parseInt(dataRF.data[1].rooms[0].count),maxPeo:parseInt(dataRF.data[1].rooms[0].limit)})
          }
             catch(err){
                 console.log(err)
@@ -167,7 +168,7 @@ setGlobalDispatcher(agent)
             })
         })
     }else{
-        console.log("營業時間外，現在時間"+date.getHours())
+        console.log("營業時間外，現在時間"+date.getHours()+"點")
         process.exit(0)
     }
 
